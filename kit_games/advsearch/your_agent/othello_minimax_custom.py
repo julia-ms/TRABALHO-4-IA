@@ -3,12 +3,15 @@ from typing import Tuple
 from ..othello.gamestate import GameState
 from ..othello.board import Board
 from .minimax import minimax_move
+from .othello_minimax_count import evaluate_count
+from .othello_minimax_mask import evaluate_mask
 
 # Voce pode criar funcoes auxiliares neste arquivo
 # e tambem modulos auxiliares neste pacote.
 #
 # Nao esqueca de renomear 'your_agent' com o nome
 # do seu agente.
+
 
 
 def make_move(state) -> Tuple[int, int]:
@@ -22,9 +25,8 @@ def make_move(state) -> Tuple[int, int]:
     # a primeira jogada 
     # Remova-o e coloque uma chamada para o minimax_move (que vc implementara' no modulo minimax).
     # A chamada a minimax_move deve receber sua funcao evaluate como parametro.
-
-    return random.choice([(2, 3), (4, 5), (5, 4), (3, 2)])
-
+    
+    return minimax_move (state, 5, evaluate_custom)
 
 def evaluate_custom(state, player:str) -> float:
     """
@@ -34,4 +36,21 @@ def evaluate_custom(state, player:str) -> float:
     :param state: state to evaluate (instance of GameState)
     :param player: player to evaluate the state for (B or W)
     """
-    return 0    # substitua pelo seu codigo
+
+    # player_mobility = len(state.board.legal_moves(player))
+    # opponent_mobility = len(state.board.legal_moves(state.board.opponent(player)))
+
+    # return player_mobility - opponent_mobility
+    
+    jogadas = 0
+    state_copy = state.board.copy()
+    for jogada_player in state.legal_moves():
+        state_copy.process_move(jogada_player, "W" if player == "W" else "B")
+        for jogada_adversario in state_copy.legal_moves("W" if player == "W" else "B"):
+            jogadas += 1
+            state_copy = state.board.copy()
+    
+    return 64 - jogadas
+
+   
+
