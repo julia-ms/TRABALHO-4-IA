@@ -6,7 +6,7 @@ from typing import Tuple, Callable
 def minimax_move(state, max_depth: int, eval_func: Callable) -> Tuple[int, int]:
 
     def max_value(state, alpha, beta, depth):
-        if state.is_terminal() or depth == 0:           
+        if state.is_terminal() or depth == 0:
             return eval_func(state, state.player), None
         v = float('-inf')
         for move in state.legal_moves():

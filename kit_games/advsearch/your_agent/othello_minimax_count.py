@@ -38,7 +38,7 @@ def evaluate_count(state, player:str) -> int:
             elif tile == state.board.opponent(player):
                 enemyNumPieces += 1
     
-    # return int(numPieces - enemyNumPieces)   
+    return int(numPieces - enemyNumPieces)   
     
     """
     Evaluates an othello state from the point of view of the given player. 
